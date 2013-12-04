@@ -18,8 +18,17 @@ function initialize() {
 function getAddress() {
     var address = document.getElementById('address').value;
     //open file of addresses
-    //get address line
-    codeAddress(address);
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'locations.txt', false);
+    xhr.send(null);    
+    var file = xhr.responseText.split('/n');
+
+    /*fs.readFile('locations.txt', function(err, f) {
+        var file = f.toString().split('/n');
+        console.log(file[0]);        
+    });*/
+        //get address line
+        codeAddress(address);
 };
 
 function codeAddress(address) {
