@@ -19,23 +19,24 @@ function getAddress() {
     var address = document.getElementById('address').value;
     //open file of addresses
     //get address line
-    //get latitude longitude
-    //save info
-    locInfo[index].address = address;
+    codeAddress(address);
 };
 
 function codeAddress(address) {
-    var address = document.getElementById('address').value;
-    geocoder.geocode( { 'address': address}, function(results, status) {
+    //var address = document.getElementById('address').value;
+    geocoder.geocode( { 'address': address, 'componentRestrictions' : {administrativeArea: "NY"} }, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             map.setCenter(results[0].geometry.location);
             var marker = new google.maps.Marker({
                 map: map,
                 position: results[0].geometry.location
             });
-        //locInfo[index].lat = results[0].geometry.location.ob;        
-        //locInfo[index].lon = results[0].geometry.location.pb;        
-        console.log(results[0].geometry.location);
+        
+            var obj = {
+                address: address,
+                lat: results[0].geometry.location.ob,
+                lon: results[0].geometry.location.pb }
+            locInfo.push(obj);        
         } else {
             alert('Geocode was not successful for the following reason: ' + status);
         }
