@@ -17,34 +17,27 @@ function initialize() {
 
 function getAddress() {
     var address = document.getElementById('address').value;
-    //open file of addresses
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'locations.txt', false);
-    xhr.send(null);    
-    var file = xhr.responseText.split('/n');
-
-    /*fs.readFile('locations.txt', function(err, f) {
-        var file = f.toString().split('/n');
-        console.log(file[0]);        
-    });*/
-        //get address line
-        codeAddress(address);
+    
+    //get address line
+    codeAddress(address);
 };
 
 function codeAddress(address) {
     //var address = document.getElementById('address').value;
     geocoder.geocode( { 'address': address, 'componentRestrictions' : {administrativeArea: "NY"} }, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
-            map.setCenter(results[0].geometry.location);
+            //map.setCenter(results[0].geometry.location);
+            var icon = {path:google.maps.SymbolPath.CIRCLE, scale: 4,strokeColor:'#FF0066'}
             var marker = new google.maps.Marker({
                 map: map,
-                position: results[0].geometry.location
+                position: results[0].geometry.location,
+                icon: icon
             });
         
             var obj = {
                 address: address,
-                lat: results[0].geometry.location.ob,
-                lon: results[0].geometry.location.pb }
+                lat: results[0].geometry.location.pb,
+                lon: results[0].geometry.location.qb }
             locInfo.push(obj);        
         } else {
             alert('Geocode was not successful for the following reason: ' + status);
